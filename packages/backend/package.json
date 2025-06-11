@@ -1,0 +1,6 @@
+{ "name": "backend",
+    "scripts": {
+      "dev": "go run main.go"
+    }
+}
+  
