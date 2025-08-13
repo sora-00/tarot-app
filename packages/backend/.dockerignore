@@ -1,0 +1,8 @@
+node_modules
+vendor
+bin
+.turbo
+.git
+.gitignore
+.DS_Store
+**/*.log
