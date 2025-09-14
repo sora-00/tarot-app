@@ -1,6 +1,6 @@
 'use client'
 
-import { Box, Text, Button, VStack, HStack, Badge, Divider, Container, Grid, GridItem, Image } from "@chakra-ui/react"
+import { Box, Text, Button, VStack, HStack, Badge, Grid, GridItem, Image } from "@chakra-ui/react"
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { TarotReading } from "../../types/tarot"
@@ -33,19 +33,6 @@ const getImageName = (cardId: number) => {
     21: "the-world"
   }
   return imageMap[cardId] || "back"
-}
-
-// シンプルなテキスト表示（マークダウンなし）
-function renderText(text: string) {
-  return (
-    <Text 
-      fontSize="md" 
-      lineHeight="1.6" 
-      whiteSpace="pre-wrap"
-    >
-      {text}
-    </Text>
-  )
 }
 
 export default function Result() {

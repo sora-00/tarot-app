@@ -1,6 +1,6 @@
 'use client'
 
-import { Text, Button, VStack, Container, Textarea, FormControl, FormLabel, Select, Box, HStack } from "@chakra-ui/react"
+import { Text, Button, VStack, Textarea, FormControl, FormLabel, Select, Box } from "@chakra-ui/react"
 import { useState, useRef, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { fortuneTellers } from "../data/fortuneTellers"
