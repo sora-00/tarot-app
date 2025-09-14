@@ -73,22 +73,26 @@ export default function Result() {
   }
 
   return (
-    <VStack spacing={8} align="stretch" mx={10}>
+    <VStack spacing={8} align="stretch" mx={{ base: 4, md: 10 }}>
       <Box textAlign="center">
-        <Text fontSize="3xl" fontWeight="bold" mt={4} color="purple.600">
+        <Text fontSize={{ base: "2xl", md: "3xl" }} fontWeight="bold" mt={4} color="purple.600">
           AIタロット占い結果
         </Text>
         {fortuneTeller && (
           <HStack justify="center">
-            <Text fontSize="2xl">{fortuneTeller.emoji}</Text>
-            <Text fontSize="lg" fontWeight="bold" color="purple.600">
+            <Text fontSize={{ base: "xl", md: "2xl" }}>{fortuneTeller.emoji}</Text>
+            <Text fontSize={{ base: "md", md: "lg" }} fontWeight="bold" color="purple.600">
               {fortuneTeller.name}の解釈
             </Text>
           </HStack>
         )}
       </Box>
 
-      <Grid templateColumns="1fr 1fr" gap={8} minH="70vh">
+      <Grid 
+        templateColumns={{ base: "1fr", md: "1fr 1fr" }} 
+        gap={8} 
+        minH="70vh"
+      >
         {/* 左半分: 質問・カード情報 */}
         <GridItem>
           <VStack spacing={6} align="stretch" h="full">
@@ -103,52 +107,52 @@ export default function Result() {
             </Box>
 
             {/* 選ばれたカードとカードの意味を横並び */}
-            <HStack spacing={6} align="start">
+            <HStack spacing={6} align="start" direction={{ base: "column", md: "row" }}>
               {/* カード情報（画像・名前） */}
-              <Box bg="purple.50" p={6} borderRadius="lg" border="1px" borderColor="purple.200" flex={1} display="flex" flexDirection="row" alignItems="start" gap={10} justifyContent="space-between">
-                <Box>
-                    <Text fontSize="lg" fontWeight="bold" mb={4} color="purple.700">
-                      選ばれたカード
-                    </Text>
-                    {/* カード名と位置 */}
-                    <VStack spacing={2} align="start" display="flex" flexDirection="row" alignItems="end" gap={10} pb={4}>
-                        <Box>
-                            <Text fontSize="xl" fontWeight="bold" color="purple.800" textAlign="start">
-                              {result.card.name}
-                            </Text>
-                            <Text fontSize="sm" color="gray.600" textAlign="start">
-                              {result.card.nameEn}
-                            </Text>
-                        </Box>
-                        <Box>
-                            <Badge
-                              colorScheme={result.isReversed ? "red" : "green"}
-                              variant="solid"
-                              fontSize="sm"
-                              px={3}
-                              py={1}
-                            >
-                              {result.isReversed ? "逆位置" : "正位置"}
-                            </Badge>
-                        </Box>
-                      </VStack>
-                    <Text fontSize="lg" fontWeight="bold" mb={3} color="purple.700">
-                      カードの意味
-                    </Text>
-                    <Text fontSize="md" color="gray.700" lineHeight="1.6">
-                      {result.isReversed ? result.card.reversedMeaning : result.card.meaning}
-                    </Text>
-                </Box>
-                <VStack spacing={4} align="center">
-                  {/* カード画像 */}
-                  <Image
-                    src={`/${getImageName(result.card.id)}.png`}
-                    alt={result.card.name}
-                    maxW="230px"
-                    transform={result.isReversed ? "rotate(180deg)" : "none"}
-                    transition="transform 0.3s ease"
-                  />
-                </VStack>
+              <Box bg="purple.50" p={6} borderRadius="lg" border="1px" borderColor="purple.200" flex={1} display="flex" flexDirection={{ base: "column", md: "row" }} alignItems="start" gap={{ base: 4, md: 10 }} justifyContent="space-between">
+                    <Box>
+                        <Text fontSize="lg" fontWeight="bold" mb={4} color="purple.700">
+                        選ばれたカード
+                        </Text>
+                        {/* カード名と位置 */}
+                        <VStack spacing={2} align="start" display="flex" flexDirection="row" alignItems="end" gap={10} pb={4}>
+                            <Box>
+                                <Text fontSize="xl" fontWeight="bold" color="purple.800" textAlign="start">
+                                {result.card.name}
+                                </Text>
+                                <Text fontSize="sm" color="gray.600" textAlign="start">
+                                {result.card.nameEn}
+                                </Text>
+                            </Box>
+                            <Box>
+                                <Badge
+                                colorScheme={result.isReversed ? "red" : "green"}
+                                variant="solid"
+                                fontSize="sm"
+                                px={3}
+                                py={1}
+                                >
+                                {result.isReversed ? "逆位置" : "正位置"}
+                                </Badge>
+                            </Box>
+                        </VStack>
+                        <Text fontSize="lg" fontWeight="bold" mb={3} color="purple.700">
+                        カードの意味
+                        </Text>
+                        <Text fontSize="md" color="gray.700" lineHeight="1.6">
+                        {result.isReversed ? result.card.reversedMeaning : result.card.meaning}
+                        </Text>
+                    </Box>
+                    <VStack spacing={4} align="center">
+                    {/* カード画像 */}
+                    <Image
+                        src={`/${getImageName(result.card.id)}.png`}
+                        alt={result.card.name}
+                        maxW={{ base: "200px", md: "230px" }}
+                        transform={result.isReversed ? "rotate(180deg)" : "none"}
+                        transition="transform 0.3s ease"
+                    />
+                    </VStack>
               </Box>
 
               
@@ -175,7 +179,7 @@ export default function Result() {
         </GridItem>
       </Grid>
 
-      <Box textAlign="center">
+      <Box textAlign="center" pb="8">
         <Button
           colorScheme="purple"
           size="lg"
