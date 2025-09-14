@@ -1,5 +1,46 @@
 @import "tailwindcss";
 
+/* Zen Maru Gothic フォントの定義 */
+@font-face {
+  font-family: "Zen Maru Gothic";
+  src: url("/fonts/zen-maru-gothic/ZenMaruGothic-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Zen Maru Gothic";
+  src: url("/fonts/zen-maru-gothic/ZenMaruGothic-Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Zen Maru Gothic";
+  src: url("/fonts/zen-maru-gothic/ZenMaruGothic-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Zen Maru Gothic";
+  src: url("/fonts/zen-maru-gothic/ZenMaruGothic-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Zen Maru Gothic";
+  src: url("/fonts/zen-maru-gothic/ZenMaruGothic-Black.ttf") format("truetype");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -19,8 +60,26 @@
   }
 }
 
-body {
-  background: var(--background);
+html, body {
+  background: #e8d5f4 !important;
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Zen Maru Gothic", Arial, Helvetica, sans-serif !important;
+  min-height: 100vh !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
+
+/* ルート要素にも背景を設定 */
+#__next {
+  background: #e8d5f4 !important;
+  min-height: 100vh !important;
+}
+
+/* すべての要素にZen Maru Gothicを強制適用 */
+* {
+  font-family: "Zen Maru Gothic", Arial, Helvetica, sans-serif !important;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
