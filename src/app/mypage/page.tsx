@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container, Box, Text, VStack } from "@chakra-ui/react"
+import { Container, Text, VStack } from "@chakra-ui/react"
 
 export default function Mypage() {
   return (
