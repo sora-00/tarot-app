@@ -7,6 +7,17 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 export const metadata: Metadata = {
   title: "タロット占いアプリ",
   description: "あなたの悩みや疑問をタロットカードに聞いてみませんか？",
+  openGraph: {
+    title: "AIタロット占い",
+    description: "あなたの悩みや疑問をタロットカードに聞いてみませんか？",
+    type: "website",
+    url: "https://tarot-app-kappa.vercel.app",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "AIタロット占い",
+    description: "あなたの悩みや疑問をタロットカードに聞いてみませんか？",
+  },
 };
 
 export default function RootLayout({

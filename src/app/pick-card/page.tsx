@@ -1,6 +1,6 @@
 'use client'
 
-import { Box, Text, Button, VStack, Image } from "@chakra-ui/react"
+import { Box, Text, Button, VStack, Image, useMediaQuery } from "@chakra-ui/react"
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { motion } from "framer-motion"
@@ -49,6 +49,9 @@ export default function PickCard() {
   const [cardAssignments, setCardAssignments] = useState<CardAssignment[]>([])
   const [isInitialized, setIsInitialized] = useState(false)
   const router = useRouter()
+  
+  // スマホかパソコンかの判定
+  const [isMobile] = useMediaQuery("(max-width: 767px)")
 
   useEffect(() => {
     // セッションストレージから質問を取得
@@ -180,7 +183,7 @@ export default function PickCard() {
           AIタロット占い
         </Text>
         <Text fontSize="lg" color="gray.600" mb={4}>
-          あなたの質問: {question}
+          あなたのご質問: {question}
         </Text>
         <Text fontSize="md" color="gray.500">
           左右にスワイプしてカードを探し、直感で1枚を選んでください
@@ -211,7 +214,9 @@ export default function PickCard() {
           }}
           drag="x"
           dragConstraints={{ 
-            left: -(cardAssignments.length *123),
+            left: isMobile 
+              ? -(cardAssignments.length * 168)
+              : -(cardAssignments.length * 123),
             right: 0
           }}
           dragElastic={0.1}

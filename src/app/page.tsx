@@ -56,7 +56,7 @@ export default function Home() {
 
         <FormControl>
           <FormLabel fontSize="lg" fontWeight="bold" textAlign="center">
-            あなたのご相談内容を入力してください
+            あなたのご質問を入力してください
           </FormLabel>
           <Box mb={2}>
             <Text fontSize="sm" color="gray.600" textAlign="center">
@@ -72,7 +72,7 @@ export default function Home() {
               bg="white"
               value={question}
               onChange={(e) => setQuestion(e.target.value)}
-              placeholder="ここにご相談内容を入力してください"
+              placeholder="ここにご質問を入力してください"
               size="lg"
               w="100%"
               maxW="700px"
