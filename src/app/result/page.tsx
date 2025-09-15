@@ -1,6 +1,6 @@
 'use client'
 
-import { Box, Text, Button, VStack, HStack, Badge, Grid, GridItem, Image } from "@chakra-ui/react"
+import { Box, Text, Button, VStack, HStack, Badge, Grid, GridItem, Image, useToast, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton, useDisclosure } from "@chakra-ui/react"
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { TarotReading } from "../../types/tarot"
@@ -39,6 +39,8 @@ export default function Result() {
   const [result, setResult] = useState<TarotReading | null>(null)
   const [fortuneTeller, setFortuneTeller] = useState<{ id: string; name: string; emoji: string; personality: string; speechStyle: string; example: string } | null>(null)
   const router = useRouter()
+  const toast = useToast()
+  const { isOpen, onOpen, onClose } = useDisclosure()
 
   useEffect(() => {
     const savedResult = sessionStorage.getItem('tarotResult')
@@ -62,6 +64,72 @@ export default function Result() {
   const handleNewReading = () => {
     sessionStorage.removeItem('tarotResult')
     router.push('/')
+  }
+
+  // シェア用のテキストを生成（140字以内、個人的な内容は含めない）
+  const generateShareText = () => {
+    if (!result || !fortuneTeller) return ""
+    
+    const siteUrl = 'https://tarot-app-kappa.vercel.app'
+    
+    // カードの意味を短縮（30文字以内）
+    const cardMeaning = result.isReversed ? result.card.reversedMeaning : result.card.meaning
+    const shortMeaning = cardMeaning.length > 30 
+      ? cardMeaning.substring(0, 30) + '...'
+      : cardMeaning
+    
+    const shareText = `🔮 AIタロット占いアプリ 🔮
+
+${fortuneTeller.emoji} ${fortuneTeller.name}が解釈！
+
+【引いたカード】${result.card.name} ${result.isReversed ? '逆位置' : '正位置'}
+${shortMeaning}
+
+7人の占い師があなたの悩みに寄り添います✨
+
+${siteUrl}
+
+#タロット占い #AI占い #タロットカード`
+
+    return shareText
+  }
+
+  // Xでシェア
+  const shareOnX = () => {
+    const text = generateShareText()
+    const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`
+    window.open(url, '_blank')
+  }
+
+  // LINEでシェア
+  const shareOnLine = () => {
+    const text = generateShareText()
+    const currentUrl = 'https://tarot-app-kappa.vercel.app'
+    const url = `https://social-plugins.line.me/lineit/share?url=${encodeURIComponent(currentUrl)}&text=${encodeURIComponent(text)}`
+    window.open(url, '_blank')
+  }
+
+  // テキストをコピー
+  const copyToClipboard = async () => {
+    try {
+      const text = generateShareText()
+      await navigator.clipboard.writeText(text)
+      toast({
+        title: "コピーしました！",
+        description: "占い結果をクリップボードにコピーしました",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      })
+    } catch {
+      toast({
+        title: "コピーに失敗しました",
+        description: "手動でコピーしてください",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      })
+    }
   }
 
   if (!result) {
@@ -99,7 +167,7 @@ export default function Result() {
             {/* 質問 */}
             <Box bg="purple.50" p={6} borderRadius="lg" border="1px" borderColor="purple.200">
               <Text fontSize="lg" fontWeight="bold" mb={3} color="purple.700">
-                あなたの質問
+                あなたのご質問
               </Text>
               <Text fontSize="md" color="gray.700" lineHeight="1.6">
                 {result.question}
@@ -180,14 +248,78 @@ export default function Result() {
       </Grid>
 
       <Box textAlign="center" pb="8">
-        <Button
-          colorScheme="purple"
-          size="lg"
-          onClick={handleNewReading}
-        >
-          もう一度占う
-        </Button>
+        <VStack spacing={4}>
+          <HStack spacing={4}>
+            <Button
+              colorScheme="purple"
+              size="lg"
+              onClick={handleNewReading}
+            >
+              もう一度占う
+            </Button>
+            <Button
+              colorScheme="blue"
+              size="lg"
+              onClick={onOpen}
+            >
+              結果をシェア
+            </Button>
+          </HStack>
+        </VStack>
       </Box>
+
+      {/* シェアモーダル */}
+      <Modal isOpen={isOpen} onClose={onClose} size="md">
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>結果をシェア</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody pb={6}>
+            <VStack spacing={4}>
+              <Text fontSize="md" color="gray.600" textAlign="center">
+                占い結果をSNSでシェアしたり、テキストをコピーして友達に送ることができます。
+              </Text>
+              
+              <HStack spacing={4} justify="center">
+                <Button
+                  bg="black"
+                  color="white"
+                  _hover={{ bg: "gray.800" }}
+                  onClick={shareOnX}
+                  minW="80px"
+                >
+                  <Text fontSize="lg">𝕏</Text>
+                </Button>
+                <Button
+                  colorScheme="green"
+                  leftIcon={<Text>💬</Text>}
+                  onClick={shareOnLine}
+                  minW="80px"
+                >
+                  LINE
+                </Button>
+                <Button
+                  colorScheme="gray"
+                  leftIcon={<Text>📋</Text>}
+                  onClick={copyToClipboard}
+                  minW="80px"
+                >
+                  コピー
+                </Button>
+              </HStack>
+
+              <Box w="full" p={4} bg="gray.50" borderRadius="md">
+                <Text fontSize="sm" color="gray.600" mb={2}>
+                  シェア内容のプレビュー:
+                </Text>
+                <Text fontSize="xs" color="gray.700" whiteSpace="pre-wrap">
+                  {generateShareText()}
+                </Text>
+              </Box>
+            </VStack>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
     </VStack>
   );        
 }
