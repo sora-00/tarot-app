@@ -167,7 +167,7 @@ ${siteUrl}
             {/* 質問 */}
             <Box bg="purple.50" p={6} borderRadius="lg" border="1px" borderColor="purple.200">
               <Text fontSize="lg" fontWeight="bold" mb={3} color="purple.700">
-                あなたのご質問
+                    あなたの質問
               </Text>
               <Text fontSize="md" color="gray.700" lineHeight="1.6">
                 {result.question}

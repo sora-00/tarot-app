@@ -183,7 +183,7 @@ export default function PickCard() {
           AIタロット占い
         </Text>
         <Text fontSize="lg" color="gray.600" mb={4}>
-          あなたのご質問: {question}
+          あなたの質問: {question}
         </Text>
         <Text fontSize="md" color="gray.500">
           左右にスワイプしてカードを探し、直感で1枚を選んでください
