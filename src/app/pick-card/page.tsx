@@ -216,7 +216,7 @@ export default function PickCard() {
           dragConstraints={{ 
             left: isMobile 
               ? -(cardAssignments.length * 168)
-              : -(cardAssignments.length * 123),
+              : -(cardAssignments.length * 130),
             right: 0
           }}
           dragElastic={0.1}
