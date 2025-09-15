@@ -177,7 +177,7 @@ export default function PickCard() {
   }
 
   return (
-    <VStack spacing={8} align="stretch">
+    <VStack  align="stretch">
       <Box textAlign="center" p={8}>
         <Text fontSize="3xl" fontWeight="bold" mb={4} color="purple.600">
           AIタロット占い
@@ -398,7 +398,7 @@ export default function PickCard() {
       </Box>
 
 
-      <Box textAlign="center" pb={8}>
+      <Box textAlign="center" py={8}>
         <Button
           colorScheme="purple"
           size="lg"
