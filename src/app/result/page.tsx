@@ -5,35 +5,9 @@ import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { TarotReading } from "../../types/tarot"
 import { fortuneTellers } from "../../data/fortuneTellers"
+import { getTarotImageName } from "../../ui/common/imageName"
 
-// 画像ファイル名のマッピング
-const getImageName = (cardId: number) => {
-  const imageMap: { [key: number]: string } = {
-    0: "the-foool",
-    1: "magician", 
-    2: "the-high-priestess",
-    3: "the-empress",
-    4: "the-emperor",
-    5: "the-hierophant",
-    6: "the-lovers",
-    7: "the-chariot",
-    8: "strength",
-    9: "the-hermit",
-    10: "whell-of-fortune",
-    11: "justice",
-    12: "the-hanged-man",
-    13: "death",
-    14: "temperance",
-    15: "the-devil",
-    16: "the-tower",
-    17: "star",
-    18: "the-moon",
-    19: "the-sun",
-    20: "judgement",
-    21: "the-world"
-  }
-  return imageMap[cardId] || "back"
-}
+// 共通ユーティリティに移動
 
 export default function Result() {
   const [result, setResult] = useState<TarotReading | null>(null)
@@ -214,7 +188,7 @@ ${siteUrl}
                     <VStack spacing={4} align="center">
                     {/* カード画像 */}
                     <Image
-                        src={`/${getImageName(result.card.id)}.png`}
+                        src={`/${getTarotImageName(result.card.id)}.png`}
                         alt={result.card.name}
                         maxW={{ base: "200px", md: "230px" }}
                         transform={result.isReversed ? "rotate(180deg)" : "none"}

@@ -1,44 +1,18 @@
 'use client'
 
-import { Box, Text, Button, VStack, Image, useMediaQuery } from "@chakra-ui/react"
+import { Box, Text, Button, VStack, useMediaQuery } from "@chakra-ui/react"
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { motion } from "framer-motion"
 import { tarotCards } from "../../data/tarotCards"
+import { getTarotImageName } from "../../ui/common/imageName"
+import { FlipCard } from "../../ui/common/FlipCard"
+import { HorizontalDraggable } from "../../ui/common/HorizontalDraggable"
 
 interface CardAssignment {
   cardId: number
   isReversed: boolean
   isFlipped: boolean
-}
-
-// 画像ファイル名のマッピング
-const getImageName = (cardId: number) => {
-  const imageMap: { [key: number]: string } = {
-    0: "the-foool",
-    1: "magician", 
-    2: "the-high-priestess",
-    3: "the-empress",
-    4: "the-emperor",
-    5: "the-hierophant",
-    6: "the-lovers",
-    7: "the-chariot",
-    8: "strength",
-    9: "the-hermit",
-    10: "whell-of-fortune",
-    11: "justice",
-    12: "the-hanged-man",
-    13: "death",
-    14: "temperance",
-    15: "the-devil",
-    16: "the-tower",
-    17: "star",
-    18: "the-moon",
-    19: "the-sun",
-    20: "judgement",
-    21: "the-world"
-  }
-  return imageMap[cardId] || "back"
 }
 
 export default function PickCard() {
@@ -142,13 +116,25 @@ export default function PickCard() {
       })
 
       const data = await response.json()
-      
+
       if (response.ok) {
         // 結果をセッションストレージに保存して結果ページに遷移
         sessionStorage.setItem('tarotResult', JSON.stringify(data.result))
         router.push('/result')
       } else {
-        alert(data.error?.message || 'エラーが発生しました')
+        const code = data?.error?.code as string | undefined
+        if (code) {
+          console.error('Tarot API error code:', code, 'detail:', data)
+        }
+        const messageMap: Record<string, string> = {
+          OPENAI_KEY_MISSING: '設定エラーにより現在占いを実行できません。時間をおいて再度お試しください。',
+          BAD_REQUEST: '入力内容を確認してください。質問とカードが必要です。',
+          INVALID_CARD_ID: 'カード情報が不正です。もう一度カードを選択してください。',
+          OPENAI_API_ERROR: '占いサービスでエラーが発生しました。しばらくしてから再度お試しください。',
+          UNKNOWN_ERROR: '不明なエラーが発生しました。時間をおいて再度お試しください。',
+        }
+        const uiMessage = (code && messageMap[code]) || data.error?.message || 'エラーが発生しました'
+        alert(uiMessage)
       }
     } catch (error) {
       console.error('Error:', error)
@@ -201,34 +187,11 @@ export default function PickCard() {
         overflow="hidden"
         mx="auto"
       >
-        <motion.div
-          style={{
-            display: "flex",
-            height: "100%",
-            alignItems: "center",
-            gap: "20px",
-            padding: "0 30px",
-            cursor: "grab",
-            width: "max-content",
-            minWidth: "100%",
-          }}
-          drag="x"
-          dragConstraints={{ 
-            left: isMobile 
-              ? -(cardAssignments.length * 168)
-              : -(cardAssignments.length * 130),
-            right: 0
-          }}
-          dragElastic={0.1}
-          dragMomentum={true}
-          dragPropagation={false}
-          dragTransition={{ bounceStiffness: 300, bounceDamping: 20 }}
-          whileDrag={{ cursor: "grabbing" }}
-        >
+        <HorizontalDraggable widthPx={160} itemCount={cardAssignments.length} isMobile={isMobile}>
             {cardAssignments.map((assignment, index) => {
               const isSelected = selectedCardId === assignment.cardId
               const card = tarotCards[assignment.cardId]
-              const imageName = getImageName(assignment.cardId)
+              const imageName = getTarotImageName(assignment.cardId)
               
               return (
                 <motion.div
@@ -301,100 +264,17 @@ export default function PickCard() {
                     zIndex={10}
                     opacity={selectedCardId !== null && !assignment.isFlipped ? 0.6 : 1}
                   >
-                    <Box
-                      position="relative"
-                      width="100%"
-                      height="100%"
-                      borderRadius="md"
-                      overflow="hidden"
-                      style={{ perspective: "1000px" }}
-                    >
-                      <motion.div
-                        style={{
-                          width: "100%",
-                          height: "100%",
-                          position: "relative",
-                          transformStyle: "preserve-3d"
-                        }}
-                        animate={{
-                          rotateY: assignment.isFlipped ? 180 : 0,
-                        }}
-                        transition={{ duration: 0.6, ease: "easeInOut" }}
-                      >
-                        {/* 裏面 */}
-                        <div
-                          style={{
-                            position: "absolute",
-                            width: "100%",
-                            height: "100%",
-                            backfaceVisibility: "hidden",
-                            transform: "rotateY(0deg)",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center"
-                          }}
-                        >
-                          <Image
-                            src="/back.png"
-                            alt="タロットカード（裏面）"
-                            width="100%"
-                            height="100%"
-                            objectFit="cover"
-                            borderRadius="md"
-                            style={{
-                              width: "100%",
-                              height: "100%"
-                            }}
-                          />
-                        </div>
-                        
-                        {/* 表面 */}
-                        <div
-                          style={{
-                            position: "absolute",
-                            width: "100%",
-                            height: "100%",
-                            backfaceVisibility: "hidden",
-                            transform: "rotateY(180deg)",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center"
-                          }}
-                        >
-                          <motion.div
-                            animate={{
-                              rotate: assignment.isReversed ? 180 : 0,
-                            }}
-                            transition={{ duration: 0.3, delay: assignment.isFlipped ? 0.3 : 0 }}
-                            style={{
-                              width: "100%",
-                              height: "100%",
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center"
-                            }}
-                          >
-                            <Image
-                              src={`/${imageName}.png`}
-                              alt={card.name}
-                              width="100%"
-                              height="100%"
-                              objectFit="contain"
-                              borderRadius="md"
-                              style={{
-                                maxWidth: "100%",
-                                maxHeight: "100%"
-                              }}
-                            />
-                          </motion.div>
-                        </div>
-                      </motion.div>
-                    </Box>
+                    <FlipCard
+                      backSrc="/back.png"
+                      frontSrc={`/${imageName}.png`}
+                      isFlipped={assignment.isFlipped}
+                      isReversed={assignment.isReversed}
+                    />
                   </Box>
                 </motion.div>
               )
             })}
-        </motion.div>
+        </HorizontalDraggable>
       </Box>
 
 
