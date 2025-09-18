@@ -1,41 +1,14 @@
 'use client'
 
-import { Text, Button, VStack, Textarea, FormControl, FormLabel, Select, Box } from "@chakra-ui/react"
-import { useState, useRef, useEffect } from "react"
-import { useRouter } from "next/navigation"
-import { fortuneTellers } from "../data/fortuneTellers"
+import { VStack, Box } from "@chakra-ui/react"
+import { QuestionForm } from "../ui/container/top/QuestionForm"
+import { FortuneTellerSelect } from "../ui/container/top/FortuneTellerSelect"
+import { StartButton } from "../ui/container/top/StartButton"
+import { useTarotQuestion } from "../hooks/useTarotQuestion"
+import { Title, Note } from "../ui/common/typography"
 
 export default function Home() {
-  const [question, setQuestion] = useState("")
-  const [selectedFortuneTeller, setSelectedFortuneTeller] = useState("miko")
-  const textareaRef = useRef<HTMLTextAreaElement>(null)
-  const router = useRouter()
-
-  // テキストエリアの自動リサイズ
-  useEffect(() => {
-    const textarea = textareaRef.current
-    if (textarea) {
-      textarea.style.height = 'auto'
-      // 画面の高さを考慮して最大高さを制限
-      const maxHeight = Math.min(300, window.innerHeight * 0.4)
-      textarea.style.height = Math.min(textarea.scrollHeight, maxHeight) + 'px'
-    }
-  }, [question])
-
-  const handleStartDivination = () => {
-    if (!question.trim()) {
-      alert("質問を入力してください")
-      return
-    }
-    if (!selectedFortuneTeller) {
-      alert("占い師を選択してください")
-      return
-    }
-    // 質問と占い師をセッションストレージに保存してカード選択ページに遷移
-    sessionStorage.setItem('tarotQuestion', question.trim())
-    sessionStorage.setItem('selectedFortuneTeller', selectedFortuneTeller)
-    router.push('/pick-card')
-  }
+  const { question, setQuestion, selectedFortuneTeller, setSelectedFortuneTeller, handleStartDivination } = useTarotQuestion()
 
   return (
     <Box 
@@ -44,88 +17,28 @@ export default function Home() {
       px={4}
     >
       <VStack spacing={8} align="center" maxW="800px" mx="auto">
-        <Text fontSize="4xl" fontWeight="bold" textAlign="center" color="purple.600">
-          AIタロット占い
-        </Text>
-        
-        <Text fontSize="lg" textAlign="center" color="gray.600">
+        <Title>AIタロット占い</Title>
+        <Note>
           あなたの悩みや疑問をタロットカードに聞いてみませんか？
           <br />
           ChatGPTがあなたに寄り添った解釈を提供します。
-        </Text>
+        </Note>
 
-        <FormControl>
-          <FormLabel fontSize="lg" fontWeight="bold" textAlign="center">
-            質問を入力してください
-          </FormLabel>
-          <Box mb={2}>
-            <Text fontSize="sm" color="gray.600" textAlign="center">
-              「○○はどうなりますか？」
-            </Text>
-            <Text fontSize="sm" color="gray.600" textAlign="center">
-              など、はいかいいえで答えられない質問で、より具体的なものになると効果的です。
-            </Text>
-          </Box>
-          <Box display="flex" justifyContent="center">
-            <Textarea
-              ref={textareaRef}
-              bg="white"
-              value={question}
-              onChange={(e) => setQuestion(e.target.value)}
-              placeholder="ここに質問を入力してください"
-              size="lg"
-              w="100%"
-              maxW="700px"
-              minH="100px"
-              resize="none"
-              overflowY="auto"
-            />
-          </Box>
-        </FormControl>
+        <QuestionForm 
+          question={question}
+          onQuestionChange={setQuestion}
+        />
 
-        <FormControl>
-          <FormLabel fontSize="lg" fontWeight="bold" textAlign="center">
-            占い師を選択してください
-          </FormLabel>
-          <Box display="flex" justifyContent="center">
-            <Select
-              value={selectedFortuneTeller}
-              onChange={(e) => setSelectedFortuneTeller(e.target.value)}
-              size="lg"
-              bg="white"
-              w="100%"
-              maxW="500px"
-            >
-              {fortuneTellers.map((teller) => (
-                <option key={teller.id} value={teller.id}>
-                  {teller.emoji} {teller.name} - {teller.description}
-                </option>
-              ))}
-            </Select>
-          </Box>
-        </FormControl>
-        <VStack spacing={4}>
-          <Button 
-            colorScheme="purple" 
-            size="lg" 
-            width="200px"
-            onClick={handleStartDivination}
-            isDisabled={!question.trim()}
-          >
-            カードを選ぶ
-          </Button>
-{/*           
-          <Button 
-            variant="outline" 
-            colorScheme="purple" 
-            size="lg" 
-            width="200px"
-            onClick={() => router.push('/mypage')}
-          >
-            マイページ
-          </Button> */}
-        </VStack>
+        <FortuneTellerSelect 
+          selectedFortuneTeller={selectedFortuneTeller}
+          onFortuneTellerChange={setSelectedFortuneTeller}
+        />
+
+        <StartButton 
+          onStartDivination={handleStartDivination}
+          isDisabled={!question.trim()}
+        />
       </VStack>
     </Box>
-    );
+  )
 }
