@@ -1,4 +1,5 @@
-import { Box, Image } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
+import NextImage from "next/image";
 import { motion } from "framer-motion";
 
 interface FlipCardProps {
@@ -41,14 +42,16 @@ export function FlipCard({ backSrc, frontSrc, isFlipped, isReversed }: FlipCardP
         transition={{ duration: 0.6, ease: "easeInOut" }}
       >
         <div style={{ ...faceStyle, transform: "rotateY(0deg)" }}>
-          <Image
-            src={backSrc}
-            alt="back"
-            width="100%"
-            height="100%"
-            objectFit="cover"
-            borderRadius="md"
-          />
+          <Box position="relative" width="100%" height="100%" borderRadius="md" overflow="hidden">
+            <NextImage
+              src={backSrc}
+              alt="back"
+              fill
+              sizes="(max-width: 767px) 40vw, 160px"
+              style={{ objectFit: "cover" }}
+              priority={false}
+            />
+          </Box>
         </div>
 
         <div style={{ ...faceStyle, transform: "rotateY(180deg)" }}>
@@ -63,14 +66,17 @@ export function FlipCard({ backSrc, frontSrc, isFlipped, isReversed }: FlipCardP
               justifyContent: "center" 
             }}
           >
-            <Image
-              src={frontSrc}
-              alt="front"
-              width="100%"
-              height="100%"
-              objectFit="contain"
-              borderRadius="md"
-            />
+            <Box position="relative" width="100%" height="100%" borderRadius="md" overflow="hidden">
+              <NextImage
+                src={frontSrc}
+                alt="front"
+                fill
+                sizes="(max-width: 767px) 40vw, 160px"
+                style={{ objectFit: "contain" }}
+                priority={false}
+                loading="lazy"
+              />
+            </Box>
           </motion.div>
         </div>
       </motion.div>

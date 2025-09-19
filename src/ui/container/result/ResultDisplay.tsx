@@ -1,4 +1,5 @@
-import { Box, Text, Button, VStack, HStack, Badge, Grid, GridItem, Image } from "@chakra-ui/react"
+import { Box, Text, Button, VStack, HStack, Badge, Grid, GridItem } from "@chakra-ui/react"
+import NextImage from "next/image"
 import { TarotReading } from "../../../types/tarot"
 import { getTarotImageName } from "../../common/imageName"
 import { Title2, Note2 } from "../../common/typography"
@@ -80,13 +81,16 @@ export function ResultDisplay({ result, fortuneTeller, onNewReading, onShare }: 
                 </Box>
                 <VStack spacing={4} align="center">
                   {/* カード画像 */}
-                  <Image
-                    src={`/images/card-front/${getTarotImageName(result.card.id)}.png`}
-                    alt={result.card.name}
-                    maxW={{ base: "200px", md: "230px" }}
-                    transform={result.isReversed ? "rotate(180deg)" : "none"}
-                    transition="transform 0.3s ease"
-                  />
+                  <Box position="relative" width={{ base: "200px", md: "230px" }} height={{ base: "330px", md: "380px" }}>
+                    <NextImage
+                      src={`/images/card-front/${getTarotImageName(result.card.id)}.png`}
+                      alt={result.card.name}
+                      fill
+                      sizes="(max-width: 767px) 200px, 230px"
+                      style={{ objectFit: "contain", transform: result.isReversed ? "rotate(180deg)" : "none" }}
+                      loading="lazy"
+                    />
+                  </Box>
                 </VStack>
               </Box>
             </HStack>
