@@ -128,8 +128,8 @@ export function CardCarousel({
                   opacity={selectedCardId !== null && !assignment.isFlipped ? 0.6 : 1}
                 >
                   <FlipCard
-                    backSrc="/back.png"
-                    frontSrc={`/${imageName}.png`}
+                    backSrc="/images/back.png"
+                    frontSrc={`/images/card-front/${imageName}.png`}
                     isFlipped={assignment.isFlipped}
                     isReversed={assignment.isReversed}
                   />

@@ -81,7 +81,7 @@ export function ResultDisplay({ result, fortuneTeller, onNewReading, onShare }: 
                 <VStack spacing={4} align="center">
                   {/* カード画像 */}
                   <Image
-                    src={`/${getTarotImageName(result.card.id)}.png`}
+                    src={`/images/card-front/${getTarotImageName(result.card.id)}.png`}
                     alt={result.card.name}
                     maxW={{ base: "200px", md: "230px" }}
                     transform={result.isReversed ? "rotate(180deg)" : "none"}
