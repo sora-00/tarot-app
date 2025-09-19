@@ -31,6 +31,16 @@ export function CardCarousel({
 }: CardCarouselProps) {
   const [isMobile] = useMediaQuery("(max-width: 767px)")
 
+  // 共通スタイル定数（冗長なインライン指定を集約）
+  const CARD_WIDTH = "160px"
+  const CARD_HEIGHT = "280px"
+  const cardItemStyle: React.CSSProperties = {
+    flexShrink: 0,
+    width: CARD_WIDTH,
+    height: CARD_HEIGHT,
+    position: "relative",
+  }
+
   return (
     <VStack align="stretch">
       <Box textAlign="center" p={8}>
@@ -65,12 +75,7 @@ export function CardCarousel({
                   scale: isSelected ? 1.15 : 1,
                 }}
                 transition={{ duration: 0.3 }}
-                style={{
-                  flexShrink: 0,
-                  width: "160px",
-                  height: "280px",
-                  position: "relative"
-                }}
+                style={cardItemStyle}
               >
                 {/* カード選択時の情報表示 */}
                 {isSelected && (
