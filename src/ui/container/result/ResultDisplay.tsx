@@ -1,7 +1,7 @@
 import { Box, Text, Button, VStack, HStack, Badge, Grid, GridItem } from "@chakra-ui/react"
 import NextImage from "next/image"
 import { TarotReading } from "../../../types/tarot"
-import { getTarotImageName } from "../../common/imageName"
+import { getTarotImageName } from "../../common/image-name"
 import { Title2, Note2 } from "../../common/typography"
 
 interface ResultDisplayProps {

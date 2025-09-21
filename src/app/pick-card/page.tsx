@@ -2,7 +2,7 @@
 
 import { Box, Text, VStack } from "@chakra-ui/react"
 import { CardCarousel } from "../../ui/container/pick-card/CardCarousel"
-import { useCardSelection } from "../../hooks/useCardSelection"
+import { useCardSelection } from "../../hooks/use-card-selection"
 
 export default function PickCard() {
   const { 

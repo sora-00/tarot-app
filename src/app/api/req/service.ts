@@ -1,5 +1,5 @@
 import OpenAI from "openai";
-import { fortuneTellers } from "../../../data/fortuneTellers";
+import { fortuneTellers } from "../../../data/fortune-tellers";
 
 export function getOpenAIClient() {
   return new OpenAI({ apiKey: process.env.OPENAI_API_KEY });

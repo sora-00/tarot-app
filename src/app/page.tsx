@@ -4,7 +4,7 @@ import { VStack, Box } from "@chakra-ui/react"
 import { QuestionForm } from "../ui/container/top/QuestionForm"
 import { FortuneTellerSelect } from "../ui/container/top/FortuneTellerSelect"
 import { StartButton } from "../ui/container/top/StartButton"
-import { useTarotQuestion } from "../hooks/useTarotQuestion"
+import { useTarotQuestion } from "../hooks/use-tarot-question"
 import { Title, Note } from "../ui/common/typography"
 
 export default function Home() {

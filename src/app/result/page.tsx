@@ -3,7 +3,7 @@
 import { Box, Text, useDisclosure } from "@chakra-ui/react"
 import { ResultDisplay } from "../../ui/container/result/ResultDisplay"
 import { ShareModal } from "../../ui/container/result/ShareModal"
-import { useTarotResult } from "../../hooks/useTarotResult"
+import { useTarotResult } from "../../hooks/use-tarot-result"
 
 export default function Result() {
   const { result, fortuneTeller, handleNewReading, shareOnX, shareOnLine, copyToClipboard } = useTarotResult()
