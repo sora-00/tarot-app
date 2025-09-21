@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { useToast } from "@chakra-ui/react"
 import { TarotReading } from "../types/tarot"
-import { fortuneTellers } from "../data/fortuneTellers"
+import { fortuneTellers } from "../data/fortune-tellers"
 
 export function useTarotResult() {
   const [result, setResult] = useState<TarotReading | null>(null)

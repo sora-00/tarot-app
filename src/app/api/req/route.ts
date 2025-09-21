@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { TarotRequest } from "../../../types/tarot";
-import { tarotCards } from "../../../data/tarotCards";
+import { tarotCards } from "../../../data/tarot-cards";
 
 import { getOpenAIClient, buildSystemPrompt, buildUserPrompt } from "@/app/api/req/service";
 

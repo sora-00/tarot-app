@@ -1,5 +1,5 @@
 import { Select, FormControl, FormLabel, Box } from "@chakra-ui/react"
-import { fortuneTellers } from "../../../data/fortuneTellers"
+import { fortuneTellers } from "../../../data/fortune-tellers"
 
 interface FortuneTellerSelectProps {
   selectedFortuneTeller: string
