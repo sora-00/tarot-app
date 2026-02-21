@@ -1,21 +1,21 @@
 'use client'
 
 import { Box, Text, VStack } from "@chakra-ui/react"
-import { CardCarousel } from "../../ui/container/pick-card/CardCarousel"
-import { useCardSelection } from "../../hooks/use-card-selection"
+import { CardCarousel } from "@/components/container/pick-card/CardCarousel"
+import { useCardSelection } from "@/hooks/use-screen-card-selection"
 
 export default function PickCard() {
   const { 
     question, 
     selectedCardId, 
     isLoading, 
-    cardAssignments, 
+    cards, 
     isInitialized, 
-    handleCardClick, 
-    handleViewResult 
+    onClickCard, 
+    onScreenResult 
   } = useCardSelection()
 
-  if (!isInitialized || cardAssignments.length === 0) {
+  if (!isInitialized || cards.length === 0) {
     return (
       <VStack spacing={8} align="stretch">
         <Box textAlign="center">
@@ -36,10 +36,10 @@ export default function PickCard() {
   return (
     <CardCarousel
       question={question}
-      cardAssignments={cardAssignments}
+      cards={cards}
       selectedCardId={selectedCardId}
-      onCardClick={handleCardClick}
-      onViewResult={handleViewResult}
+      onClickCard={onClickCard}
+      onScreenResult={onScreenResult}
       isLoading={isLoading}
     />
   )
