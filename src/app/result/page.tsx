@@ -1,12 +1,12 @@
 'use client'
 
 import { Box, Text, useDisclosure } from "@chakra-ui/react"
-import { ResultDisplay } from "../../ui/container/result/ResultDisplay"
-import { ShareModal } from "../../ui/container/result/ShareModal"
-import { useTarotResult } from "../../hooks/use-tarot-result"
+import { ResultDisplay } from "@/components/container/result/ResultDisplay"
+import { ShareModal } from "@/components/container/result/ShareModal"
+import { useTarotResult } from "@/hooks/use-screen-tarot-result"
 
 export default function Result() {
-  const { result, fortuneTeller, handleNewReading, shareOnX, shareOnLine, copyToClipboard } = useTarotResult()
+  const { result, fortuneTeller, startNewReading, shareOnX, shareOnLine, copyToClipboard } = useTarotResult()
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   if (!result) {
@@ -22,7 +22,7 @@ export default function Result() {
       <ResultDisplay
         result={result}
         fortuneTeller={fortuneTeller}
-        onNewReading={handleNewReading}
+        onNewReading={startNewReading}
         onShare={onOpen}
       />
       <ShareModal
