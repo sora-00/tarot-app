@@ -1,14 +1,7 @@
 'use client'
 
-import { ChakraProvider, extendTheme } from '@chakra-ui/react'
+import { Box, ChakraProvider } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
-
-const theme = extendTheme({
-  fonts: {
-    body: '"Zen Maru Gothic", sans-serif',
-    heading: '"Zen Maru Gothic", sans-serif',
-  },
-})
 
 export function Providers({ children }: { children: React.ReactNode }) {
     const [mounted, setMounted] = useState(false)
@@ -18,14 +11,12 @@ export function Providers({ children }: { children: React.ReactNode }) {
     }, [])
 
     if (!mounted) {
-        return <div suppressHydrationWarning>{children}</div>
+        return <Box>{children}</Box>
     }
 
     return (
-        <ChakraProvider theme={theme}>
-            <div suppressHydrationWarning>
-                {children}
-            </div>
+        <ChakraProvider>
+            {children}
         </ChakraProvider>
     )
 }

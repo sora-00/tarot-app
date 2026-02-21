@@ -4,19 +4,25 @@ import { Providers } from "./providers";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
+const baseUrl = "https://tarot-app-kappa.vercel.app";
+
 export const metadata: Metadata = {
-  title: "タロット占いアプリ",
+  metadataBase: new URL(baseUrl),
+  title: "AIタロット占い",
   description: "あなたの悩みや疑問をタロットカードに聞いてみませんか？",
+  icons: { icon: "/icon.png" },
   openGraph: {
     title: "AIタロット占い",
     description: "あなたの悩みや疑問をタロットカードに聞いてみませんか？",
     type: "website",
-    url: "https://tarot-app-kappa.vercel.app",
+    url: baseUrl,
+    images: [{ url: "/icon.png", alt: "AIタロット占い" }],
   },
   twitter: {
-    card: "summary_large_image",
+    card: "summary",
     title: "AIタロット占い",
     description: "あなたの悩みや疑問をタロットカードに聞いてみませんか？",
+    images: [{ url: "/icon.png", alt: "AIタロット占い" }],
   },
 };
 
@@ -26,8 +32,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ja" suppressHydrationWarning>
-      <body className={"bg-background text-foreground"} suppressHydrationWarning>
+    <html lang="ja">
+      <body className={"bg-background text-foreground"}>
         <Providers>
           {children}
         </Providers>
