@@ -22,6 +22,7 @@ export default function Home() {
       <QuestionForm 
         question={question}
         onQuestionChange={setQuestion}
+        onReset={() => setQuestion("")}
       />
 
       <FortuneTellerSelect 
