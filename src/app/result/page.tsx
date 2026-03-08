@@ -6,7 +6,7 @@ import { ShareModal } from "@/components/container/result/ShareModal"
 import { useTarotResult } from "@/hooks/use-screen-tarot-result"
 
 export default function Result() {
-  const { result, fortuneTeller, startNewReading, shareOnX, shareOnLine, copyToClipboard } = useTarotResult()
+  const { result, fortuneTeller, startNewReading } = useTarotResult()
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   if (!result) {
@@ -30,9 +30,6 @@ export default function Result() {
         onClose={onClose}
         result={result}
         fortuneTeller={fortuneTeller}
-        onShareX={shareOnX}
-        onShareLine={shareOnLine}
-        onCopyToClipboard={copyToClipboard}
       />
     </>
   )
