@@ -1,15 +1,13 @@
-import { Text, Button, VStack, HStack, Box, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton, Switch, FormControl, FormLabel } from "@chakra-ui/react"
+import { Text, Button, VStack, HStack, Box, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton, Switch, FormControl, FormLabel, useToast } from "@chakra-ui/react"
 import type { Reading, FortuneTeller } from "@/types"
 import { useShareModal } from "@/hooks/use-share-modal"
+import { getShareXUrl, getShareLineUrl } from "@/utils/share-urls"
 
 type Props = {
   isOpen: boolean
   onClose: () => void
   result: Reading
   fortuneTeller: FortuneTeller | null
-  onShareX: () => void
-  onShareLine: () => void
-  onCopyToClipboard: () => void
 }
 
 export function ShareModal(props: Props) {
@@ -17,6 +15,30 @@ export function ShareModal(props: Props) {
     result: props.result,
     fortuneTeller: props.fortuneTeller
   })
+  const toast = useToast()
+
+  const shareXUrl = shareText ? getShareXUrl(shareText) : undefined
+  const shareLineUrl = shareText ? getShareLineUrl(shareText) : undefined
+
+  const handleCopyToClipboard = async () => {
+    if (!shareText) return
+    try {
+      await navigator.clipboard.writeText(shareText)
+      toast({
+        title: "コピーしました！",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      })
+    } catch {
+      toast({
+        title: "コピーに失敗しました",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      })
+    }
+  }
 
   return (
     <Modal isOpen={props.isOpen} onClose={props.onClose} size="md">
@@ -31,27 +53,39 @@ export function ShareModal(props: Props) {
             </Text>
             
             <HStack spacing={4} justify="center">
-              <Button
-                bg="black"
-                color="white"
-                _hover={{ bg: "gray.800" }}
-                onClick={props.onShareX}
-                minW="80px"
-              >
-                <Text fontSize="lg">𝕏</Text>
-              </Button>
-              <Button
-                colorScheme="green"
-                leftIcon={<Text>💬</Text>}
-                onClick={props.onShareLine}
-                minW="80px"
-              >
-                LINE
-              </Button>
+              {!isPrivate && (
+                <>
+                  <Button
+                    as="a"
+                    href={shareXUrl ?? "#"}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    bg="black"
+                    color="white"
+                    _hover={{ bg: "gray.800" }}
+                    minW="80px"
+                    isDisabled={!shareText}
+                  >
+                    <Text fontSize="lg">𝕏</Text>
+                  </Button>
+                  <Button
+                    as="a"
+                    href={shareLineUrl ?? "#"}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    colorScheme="green"
+                    leftIcon={<Text>💬</Text>}
+                    minW="80px"
+                    isDisabled={!shareText}
+                  >
+                    LINE
+                  </Button>
+                </>
+              )}
               <Button
                 colorScheme="gray"
                 leftIcon={<Text>📋</Text>}
-                onClick={props.onCopyToClipboard}
+                onClick={handleCopyToClipboard}
                 minW="80px"
               >
                 コピー

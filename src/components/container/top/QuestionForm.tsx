@@ -1,9 +1,10 @@
-import { Text, Textarea, FormControl, FormLabel, Box } from "@chakra-ui/react"
+import { Text, Textarea, FormControl, FormLabel, Box, Button } from "@chakra-ui/react"
 import { useRef, useEffect } from "react"
 
 type Props = {
   question: string
   onQuestionChange: (question: string) => void
+  onReset?: () => void
 }
 
 export function QuestionForm(props: Props) {
@@ -22,31 +23,43 @@ export function QuestionForm(props: Props) {
 
   return (
     <FormControl>
-      <FormLabel fontSize="lg" fontWeight="bold" textAlign="center">
+      <FormLabel fontSize={{ base: "md", md: "lg" }} fontWeight="bold" textAlign="center" px={2}>
         質問を入力してください
       </FormLabel>
-      <Box mb={2}>
-        <Text fontSize="sm" color="gray.600" textAlign="center">
+      <Box mb={2} px={{ base: 2, md: 0 }}>
+        <Text fontSize={{ base: "xs", md: "sm" }} color="gray.600" textAlign="center" lineHeight="tall">
           「○○はどうなりますか？」「○○はどうしたらいいですか？」
         </Text>
-        <Text fontSize="sm" color="gray.600" textAlign="center">
+        <Text fontSize={{ base: "xs", md: "sm" }} color="gray.600" textAlign="center" lineHeight="tall" mt={1}>
           など、はいかいいえで答えられない質問で、より具体的なものになると効果的です。
         </Text>
       </Box>
-      <Box display="flex" justifyContent="center">
-        <Textarea
-          ref={textareaRef}
-          bg="white"
-          value={props.question}
-          onChange={(e) => props.onQuestionChange(e.target.value)}
-          placeholder="ここに質問を入力してください"
-          size="lg"
-          w="100%"
-          maxW="700px"
-          minH="100px"
-          resize="none"
-          overflowY="auto"
-        />
+      <Box display="flex" flexDirection="column" alignItems="center" gap={2} w="100%" maxW="700px" mx="auto">
+        <Box display="flex" justifyContent="center" w="100%">
+          <Textarea
+            ref={textareaRef}
+            bg="white"
+            value={props.question}
+            onChange={(e) => props.onQuestionChange(e.target.value)}
+            placeholder="ここに質問を入力してください"
+            size="lg"
+            w="100%"
+            minH="100px"
+            resize="none"
+            overflowY="auto"
+          />
+        </Box>
+        {props.onReset && (
+          <Button
+            size="sm"
+            variant="ghost"
+            colorScheme="gray"
+            alignSelf="flex-end"
+            onClick={props.onReset}
+          >
+            質問をリセット
+          </Button>
+        )}
       </Box>
     </FormControl>
   )
