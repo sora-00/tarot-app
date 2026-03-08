@@ -7,7 +7,7 @@ type Props = {
 
 export function Title(props: Props) {
   return (
-    <Text fontSize="4xl" fontWeight="bold" textAlign={props.align} color="purple.600">
+    <Text fontSize={{ base: "2xl", md: "4xl" }} fontWeight="bold" textAlign={props.align} color="purple.600">
       {props.children}
     </Text>
   )
@@ -15,7 +15,7 @@ export function Title(props: Props) {
 
 export function Note(props: Props) {
   return (
-    <Text fontSize="lg" textAlign={props.align} color="gray.600">
+    <Text fontSize={{ base: "sm", md: "lg" }} textAlign={props.align} color="gray.600" lineHeight="tall" px={{ base: 2, md: 0 }}>
       {props.children}
     </Text>
   )

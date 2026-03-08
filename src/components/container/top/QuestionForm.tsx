@@ -22,14 +22,14 @@ export function QuestionForm(props: Props) {
 
   return (
     <FormControl>
-      <FormLabel fontSize="lg" fontWeight="bold" textAlign="center">
+      <FormLabel fontSize={{ base: "md", md: "lg" }} fontWeight="bold" textAlign="center" px={2}>
         質問を入力してください
       </FormLabel>
-      <Box mb={2}>
-        <Text fontSize="sm" color="gray.600" textAlign="center">
+      <Box mb={2} px={{ base: 2, md: 0 }}>
+        <Text fontSize={{ base: "xs", md: "sm" }} color="gray.600" textAlign="center" lineHeight="tall">
           「○○はどうなりますか？」「○○はどうしたらいいですか？」
         </Text>
-        <Text fontSize="sm" color="gray.600" textAlign="center">
+        <Text fontSize={{ base: "xs", md: "sm" }} color="gray.600" textAlign="center" lineHeight="tall" mt={1}>
           など、はいかいいえで答えられない質問で、より具体的なものになると効果的です。
         </Text>
       </Box>

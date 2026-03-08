@@ -11,9 +11,9 @@ export default function Home() {
   const { question, setQuestion, selectedFortuneTeller, setSelectedFortuneTeller, startDivination } = useTarotQuestion()
 
   return (
-    <VStack spacing={8} minH="100vh" justify="center" p={4}>
+    <VStack spacing={{ base: 6, md: 8 }} minH="100vh" justify="center" p={{ base: 4, md: 6 }} px={{ base: 3, md: undefined }}>
       <Title>AIタロット占い</Title>
-      <Note>
+      <Note align="center">
         あなたの悩みや疑問をタロットカードに聞いてみませんか？
         <br />
         ChatGPTがあなたに寄り添った解釈を提供します。
