@@ -1,2 +1,2 @@
 export { getOpenAIClient } from "./client"
-export { buildPrompt } from "./prompt"
+export { buildMessages } from "./prompt"

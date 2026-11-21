@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server"
 import type { ReadingRequest } from "@/types"
 import { tarotCards } from "@server/tarot"
-import { getOpenAIClient, buildPrompt } from "@server/tarot/openai"
+import { getOpenAIClient, buildMessages } from "@server/tarot/openai"
+import { QUESTION_MAX_LENGTH } from "@/constants/question"
 
 const ERROR_MESSAGE = "占いに失敗しました"
 const CHAT_MODEL = "gpt-4o-mini"
@@ -31,16 +32,20 @@ export async function POST(req: Request) {
       return errorJson("BAD_REQUEST", 400)
     }
 
+    if (question.trim().length > QUESTION_MAX_LENGTH) {
+      return errorJson("QUESTION_TOO_LONG", 400)
+    }
+
     const selectedCard = tarotCards.find((c) => c.id === cardId)
     if (!selectedCard) {
       return errorJson("INVALID_CARD_ID", 400)
     }
 
-    const prompt = buildPrompt(tellerId, question, selectedCard, isReversed)
+    const messages = buildMessages(tellerId, question, selectedCard, isReversed)
     const openai = getOpenAIClient()
     const completion = await openai.chat.completions.create({
       model: CHAT_MODEL,
-      messages: [{ role: "user", content: prompt }],
+      messages,
       temperature: 0.8,
       max_tokens: getMaxTokens(question.length),
     })

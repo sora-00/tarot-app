@@ -1,0 +1,1 @@
+export const QUESTION_MAX_LENGTH = 200

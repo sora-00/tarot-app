@@ -1,11 +1,16 @@
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { SESSION_STORAGE_KEYS } from "@/constants/session-storage"
+import { QUESTION_MAX_LENGTH } from "@/constants/question"
 
 export function useTarotQuestion() {
-  const [question, setQuestion] = useState("")
+  const [question, setQuestionState] = useState("")
   const [selectedFortuneTeller, setSelectedFortuneTeller] = useState("miko")
   const router = useRouter()
+
+  const setQuestion = (value: string) => {
+    setQuestionState(value.slice(0, QUESTION_MAX_LENGTH))
+  }
 
   // 「もう一度占う」でtopに戻ったときに相談内容を復元
   useEffect(() => {

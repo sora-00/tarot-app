@@ -7,6 +7,7 @@ import { ReadError } from "@/repositories/read-error"
 import { isApiError } from "@/repositories/cli/client"
 import { shuffleArray } from "@/utils/card-shuffle"
 import { SESSION_STORAGE_KEYS } from "@/constants/session-storage"
+import { QUESTION_MAX_LENGTH } from "@/constants/question"
 
 export function useCardSelection() {
   const [question, setQuestion] = useState("")
@@ -23,7 +24,7 @@ export function useCardSelection() {
       router.push('/')
       return
     }
-    setQuestion(savedQuestion)
+    setQuestion(savedQuestion.slice(0, QUESTION_MAX_LENGTH))
   
     const cardIds = tarotCards.map(card => card.id)
     const shuffledIds = shuffleArray(cardIds)
