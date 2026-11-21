@@ -1,5 +1,6 @@
 import { Text, Textarea, FormControl, FormLabel, Box, Button } from "@chakra-ui/react"
 import { useRef, useEffect } from "react"
+import { QUESTION_MAX_LENGTH } from "@/constants/question"
 
 type Props = {
   question: string
@@ -40,26 +41,34 @@ export function QuestionForm(props: Props) {
             ref={textareaRef}
             bg="white"
             value={props.question}
-            onChange={(e) => props.onQuestionChange(e.target.value)}
+            onChange={(e) => props.onQuestionChange(e.target.value.slice(0, QUESTION_MAX_LENGTH))}
             placeholder="ここに質問を入力してください"
             size="lg"
             w="100%"
             minH="100px"
+            maxLength={QUESTION_MAX_LENGTH}
             resize="none"
             overflowY="auto"
           />
         </Box>
-        {props.onReset && (
-          <Button
-            size="sm"
-            variant="ghost"
-            colorScheme="gray"
-            alignSelf="flex-end"
-            onClick={props.onReset}
+        <Box display="flex" justifyContent="space-between" alignItems="center" w="100%">
+          <Text
+            fontSize="xs"
+            color={props.question.length >= QUESTION_MAX_LENGTH ? "red.500" : "gray.500"}
           >
-            質問をリセット
-          </Button>
-        )}
+            {props.question.length} / {QUESTION_MAX_LENGTH}
+          </Text>
+          {props.onReset && (
+            <Button
+              size="sm"
+              variant="ghost"
+              colorScheme="gray"
+              onClick={props.onReset}
+            >
+              質問をリセット
+            </Button>
+          )}
+        </Box>
       </Box>
     </FormControl>
   )
